@@ -1,11 +1,13 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
 
 const app = express();
+app.use(cookieParser());
 dotenv.config();
 
 // connect to database
@@ -19,6 +21,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/author", require("./routes/authorRoutes"));
 
 app.use(errorHandler);
 
