@@ -3,7 +3,7 @@ const Author = require("../models/Author");
 const ErrorResponse = require("../utils/errorResponse");
 
 // @desc      Create new author
-// @route     POST /api/authors
+// @route     POST /api/author
 // @access    Private
 exports.createAuthor = asyncHandler(async (req, res, next) => {
   const author = await Author.create(req.body);
@@ -18,11 +18,12 @@ exports.createAuthor = asyncHandler(async (req, res, next) => {
 // @route     GET /api/author
 // @access    Public
 exports.getAuthors = asyncHandler(async (req, res, next) => {
-  const author = await Author.find();
+  const authors = await Author.find();
 
   res.status(200).json({
     success: true,
-    data: author,
+    count: authors.length,
+    data: authors,
   });
 });
 
@@ -46,7 +47,7 @@ exports.getAuthor = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Update author
-// @route     PUT /api/authors
+// @route     PUT /api/author
 // @access    Private
 exports.updateAuthor = asyncHandler(async (req, res, next) => {
   let author = await Author.findById(req.params.id);
@@ -69,7 +70,7 @@ exports.updateAuthor = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Delete author
-// @route     DELETE /api/v1/authors/:id
+// @route     DELETE /api/v1/author/:id
 // @access    Private
 exports.deleteAuthor = asyncHandler(async (req, res, next) => {
   // TODO
