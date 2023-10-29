@@ -14,7 +14,18 @@ dotenv.config();
 connectDB();
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  // set origin to a specific origin.
+  // origin: "http://localhost:3000",
+
+  // or, set origin to true to reflect the request origin
+  origin: true,
+
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 app.get("/api", (req, res) => {
   res.json({ message: "Api is working" });
