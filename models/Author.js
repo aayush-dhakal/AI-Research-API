@@ -36,7 +36,18 @@ const AuthorSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+// Reverse populate with virtuals. Basically get all the posts associated with the Author.
+// virtual creates a virtual field(meaning the field will not actually gonna be in the database collection) only for quering
+AuthorSchema.virtual("posts", {
+  // posts will the field name for author schema
+  ref: "Post", // Model from where you want to populate
+  localField: "_id", // primary key field of author model
+  foreignField: "author", // the foreign key in Post model which references to author
+});
 
 module.exports = mongoose.model("Author", AuthorSchema);

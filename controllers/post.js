@@ -19,6 +19,11 @@ exports.createPost = asyncHandler(async (req, res, next) => {
 // @access    Public
 exports.getPosts = asyncHandler(async (req, res, next) => {
   const posts = await Post.find().populate("author");
+  // if you don't want to populate every author field and only want some selected field then do this:
+  // const posts = await Post.find().populate({
+  //   path: "author",
+  //   select: "name description",
+  // });
 
   res.status(200).json({
     success: true,
