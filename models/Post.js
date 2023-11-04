@@ -13,20 +13,20 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a title"],
     },
-    topic: {
-      required: [true, "Please add topics"],
-      type: [String],
-    },
     description: {
       required: [true, "Please add a description"],
       type: String,
     },
+    topics: {
+      required: [true, "Please add topics"],
+      type: [String],
+    },
     coverImage: {
       type: String,
     },
-    blogImages: {
-      type: [String],
-    },
+    // blogImages: {
+    //   type: [String],
+    // },
     author: {
       type: mongoose.Schema.ObjectId,
       ref: "Author",

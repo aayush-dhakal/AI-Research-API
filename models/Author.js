@@ -13,10 +13,6 @@ const AuthorSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a name"],
     },
-    topic: {
-      required: [true, "Please add topics"],
-      type: [String],
-    },
     description: {
       required: [true, "Please add a description"],
       type: String,
