@@ -24,12 +24,14 @@ const PostSchema = new mongoose.Schema(
     coverImage: {
       type: String,
     },
-    // blogImages: {
-    //   type: [String],
+    // postedBy: {
+    //   type: mongoose.Schema.ObjectId,
+    //   ref: "Team",
+    //   required: true,
     // },
-    author: {
+    user: {
       type: mongoose.Schema.ObjectId,
-      ref: "Author",
+      ref: "User",
       required: true,
     },
   },

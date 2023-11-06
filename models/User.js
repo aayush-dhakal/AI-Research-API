@@ -38,6 +38,8 @@ const UserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true }, // absolutely need these to populate with virtuals
+    toObject: { virtuals: true },
   }
 );
 
@@ -64,5 +66,14 @@ UserSchema.methods.getSignedJwtToken = function () {
 UserSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+// Reverse populate with virtuals. Basically get all the posts associated with the User.
+// virtual creates a virtual field(meaning the field will not actually gonna be in the database collection) only for quering
+UserSchema.virtual("posts", {
+  // posts will the field name for user schema
+  ref: "Post", // Model from where you want to populate
+  localField: "_id", // primary key field of user model
+  foreignField: "user", // the foreign key in Post model which references to user
+});
 
 module.exports = mongoose.model("User", UserSchema);

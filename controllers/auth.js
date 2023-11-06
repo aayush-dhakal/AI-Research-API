@@ -50,7 +50,11 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/auth/me
 // @access    Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id); // after the user is verified the id of that use is set in request object
+  // after the user is verified the id of that use is set in request object
+  const user = await User.findById(req.user.id).populate({
+    path: "posts",
+    model: "Post",
+  });
 
   res.status(200).json({
     success: true,

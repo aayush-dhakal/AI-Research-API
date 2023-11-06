@@ -6,7 +6,9 @@ const ErrorResponse = require("../utils/errorResponse");
 // @route     POST /api/post
 // @access    Private
 exports.createPost = asyncHandler(async (req, res, next) => {
-  const post = await Post.create(req.body);
+  // console.log("user...", req.user);
+  // return;
+  const post = await Post.create({ ...req.body, user: req.user._id });
 
   res.status(201).json({
     success: true,
@@ -18,12 +20,15 @@ exports.createPost = asyncHandler(async (req, res, next) => {
 // @route     GET /api/post
 // @access    Public
 exports.getPosts = asyncHandler(async (req, res, next) => {
-  const posts = await Post.find().populate("author");
-  // if you don't want to populate every author field and only want some selected field then do this:
+  // to populate post with user, you have to pass use in request so to do it make this route private
+  // const posts = await Post.find().populate("user");
+  // if you don't want to populate every user field and only want some selected field then do this:
   // const posts = await Post.find().populate({
-  //   path: "author",
+  //   path: "user",
   //   select: "name description",
   // });
+
+  const posts = await Post.find();
 
   res.status(200).json({
     success: true,
@@ -36,7 +41,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
 // @route     GET /api/post/:id
 // @access    Public
 exports.getPost = asyncHandler(async (req, res, next) => {
-  const post = await Post.findById(req.params.id).populate("author");
+  const post = await Post.findById(req.params.id).populate("user");
 
   // if the id is of correct format but there are no data associated with it then it will so null and a success. So we have to manually throw an error
   if (!post) {
