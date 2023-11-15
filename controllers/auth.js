@@ -6,13 +6,27 @@ const User = require("../models/User");
 // @route     POST /api/auth/register
 // @access    Public
 exports.register = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const {
+    name,
+    email,
+    password,
+    image,
+    description,
+    googleScholar,
+    linkedIn,
+    ORCID,
+  } = req.body;
 
   // Create user
   const user = await User.create({
     name,
     email,
     password,
+    image,
+    description,
+    googleScholar,
+    linkedIn,
+    ORCID,
   });
 
   sendTokenResponse(user, 200, res);
@@ -46,6 +60,37 @@ exports.login = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
+// @desc      Get all users
+// @route     POST /api/v1/auth/users
+// @access    Public
+exports.getAll = asyncHandler(async (req, res, next) => {
+  // after the user is verified the id of that use is set in request object
+  const users = await User.find().populate({
+    path: "posts",
+    model: "Post",
+  });
+
+  res.status(200).json({
+    success: true,
+    data: users,
+  });
+});
+
+// @desc      Get a user
+// @route     POST /api/v1/auth/user/:id
+// @access    Public
+exports.getUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id).populate({
+    path: "posts",
+    model: "Post",
+  });
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
 // @desc      Get current logged in user
 // @route     POST /api/v1/auth/me
 // @access    Private
@@ -55,6 +100,47 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     path: "posts",
     model: "Post",
   });
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+// @desc      Get current logged in user
+// @route     POST /api/v1/auth/user/:id
+// @access    Private
+exports.updateUser = asyncHandler(async (req, res, next) => {
+  let user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+    );
+  }
+
+  user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true, // returns the newly modified data
+    runValidators: true, // runs the validation on update as well
+  });
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+// @desc      Get current logged in user
+// @route     POST /api/v1/auth/user/:id
+// @access    Private
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+  let user = await User.findByIdAndDelete(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+    );
+  }
 
   res.status(200).json({
     success: true,

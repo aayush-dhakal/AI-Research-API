@@ -24,6 +24,10 @@ const UserSchema = new mongoose.Schema(
         "Please add a valid email",
       ],
     },
+    description: {
+      required: [true, "Please add a description"],
+      type: String,
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
@@ -34,6 +38,18 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Please add a password"],
       minlength: 6,
       select: false,
+    },
+    image: {
+      type: String,
+    },
+    googleScholar: {
+      type: String,
+    },
+    linkedIn: {
+      type: String,
+    },
+    ORCID: {
+      type: String,
     },
   },
   {

@@ -19,7 +19,7 @@ exports.createTeam = asyncHandler(async (req, res, next) => {
 // @route     GET /api/team
 // @access    Public
 exports.getTeams = asyncHandler(async (req, res, next) => {
-  const teams = await Team.find().populate("posts");
+  const teams = await Team.find();
 
   res.status(200).json({
     success: true,
@@ -32,7 +32,7 @@ exports.getTeams = asyncHandler(async (req, res, next) => {
 // @route     GET /api/team/:id
 // @access    Public
 exports.getTeam = asyncHandler(async (req, res, next) => {
-  const team = await Team.findById(req.params.id).populate("posts");
+  const team = await Team.findById(req.params.id);
 
   // if the id is of correct format but there are no data associated with it then it will so null and a success. So we have to manually throw an error
   if (!team) {

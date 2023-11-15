@@ -32,10 +32,11 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/team", require("./routes/teamRoutes"));
-// TODO: add topic endpoints
-// app.use("/api/team", require("./routes/topicRoutes"));
 app.use("/api/post", require("./routes/postRoutes"));
+// app.use("/api/team", require("./routes/teamRoutes"));
+
+// TODO: add topic endpoints
+// app.use("/api/topic", require("./routes/topicRoutes"));
 
 app.use(errorHandler);
 
