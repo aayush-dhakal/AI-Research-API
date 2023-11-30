@@ -24,11 +24,6 @@ const PostSchema = new mongoose.Schema(
     coverImage: {
       type: String,
     },
-    // postedBy: {
-    //   type: mongoose.Schema.ObjectId,
-    //   ref: "Team",
-    //   required: true,
-    // },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",

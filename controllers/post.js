@@ -28,11 +28,89 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
   //   select: "name description",
   // });
 
-  const posts = await Post.find();
+  const { sort, limit, page } = req.query;
+
+  let query = Post.find().populate("user");
+
+  // Check if the sort parameter is provided
+  if (sort) {
+    const sortData = sort.split(",");
+    const sortColumn = sortData[0];
+    const sortOrder = sortData[1] || "asc"; // Default to ascending if sortOrder is not provided
+
+    // Apply sorting to the query
+    query = query.sort({ [sortColumn]: sortOrder });
+  }
+
+  // Apply pagination
+  const pageNumber = parseInt(page) || 1; // Default to page 1 if page number is not provided
+  const pageSize = parseInt(limit) || 10; // Default to 10 items per page if limit is not provided
+
+  // include this if you want your responses to always include pagination
+  // const skip = (pageNumber - 1) * pageSize;
+
+  // this will only apply pagination if pagination data is provided in query
+  if (!isNaN(pageNumber) && !isNaN(pageSize)) {
+    const skip = (pageNumber - 1) * pageSize;
+    query = query.skip(skip).limit(pageSize);
+  }
+
+  const totalPosts = await Post.countDocuments();
+
+  const posts = await query.exec();
 
   res.status(200).json({
     success: true,
-    count: posts.length,
+    total: totalPosts,
+    data: posts,
+  });
+});
+
+// @desc      Get all posts for a author
+// @route     GET /api/post/user/id
+// @access    Public
+exports.getPostsForUser = asyncHandler(async (req, res, next) => {
+  const userId = req.params.id;
+
+  const { sort, limit, page } = req.query;
+
+  let query = Post.find();
+
+  // Add a where condition to filter by user ID
+  if (userId) {
+    query = query.where("user").equals(userId);
+  }
+
+  // Check if the sort parameter is provided
+  if (sort) {
+    const sortData = sort.split(",");
+    const sortColumn = sortData[0];
+    const sortOrder = sortData[1] || "asc"; // Default to ascending if sortOrder is not provided
+
+    // Apply sorting to the query
+    query = query.sort({ [sortColumn]: sortOrder });
+  }
+
+  // Apply pagination
+  const pageNumber = parseInt(page) || 1; // Default to page 1 if page number is not provided
+  const pageSize = parseInt(limit) || 10; // Default to 10 items per page if limit is not provided
+
+  // include this if you want your responses to always include pagination
+  // const skip = (pageNumber - 1) * pageSize;
+
+  // this will only apply pagination if pagination data is provided in query
+  if (!isNaN(pageNumber) && !isNaN(pageSize)) {
+    const skip = (pageNumber - 1) * pageSize;
+    query = query.skip(skip).limit(pageSize);
+  }
+
+  const totalPosts = await Post.countDocuments().where("user").equals(userId);
+
+  const posts = await query.exec();
+
+  res.status(200).json({
+    success: true,
+    total: totalPosts,
     data: posts,
   });
 });

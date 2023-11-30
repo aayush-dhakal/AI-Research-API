@@ -64,14 +64,60 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/auth/users
 // @access    Public
 exports.getAll = asyncHandler(async (req, res, next) => {
+  // /users/sort=name,desc
+  // console.log(req.query); // { sort: 'name,desc' }
+
+  // const { sort } = req.query;
+  // const sortData = sort.split(",");
+  // console.log(sortData);
+  // const sortColumn = sortData[0];
+  // const sortOrder = sortData[1];
+
+  // use this if you wish to provide multiple sort condition like /users/sort=name,desc&sort=createdAt,ASC
+  // Check if sort is a single string or an array
+  // const sortConditions = Array.isArray(sort) ? sort : [sort];
+
+  // // Now, you can iterate through each sorting condition
+  // sortConditions.forEach((condition) => {
+  //   const sortData = condition.split(",");
+  //   const sortColumn = sortData[0];
+  //   const sortOrder = sortData[1];
+  //   // Your sorting logic here
+  //   console.log(`Sort column: ${sortColumn}, Sort order: ${sortOrder}`);
+  // });
+
+  const { sort } = req.query;
+
   // after the user is verified the id of that use is set in request object
-  const users = await User.find().populate({
-    path: "posts",
-    model: "Post",
-  });
+  // let query = User.find().populate({
+  //   path: "posts",
+  //   model: "Post",
+  // });
+  let query = User.find();
+
+  // Check if the sort parameter is provided
+  if (sort) {
+    const sortData = sort.split(",");
+    const sortColumn = sortData[0];
+    const sortOrder = sortData[1] || "asc"; // Default to ascending if sortOrder is not provided
+
+    // Apply sorting to the query
+    query = query.sort({ [sortColumn]: sortOrder });
+  }
+
+  const totalAuthors = await User.countDocuments();
+
+  const users = await query.exec();
+
+  // const users = await User.find().populate({
+  //   path: "posts",
+  //   model: "Post",
+  // });
+  // .sort({ createdAt: "desc" });
 
   res.status(200).json({
     success: true,
+    total: totalAuthors,
     data: users,
   });
 });
@@ -80,10 +126,7 @@ exports.getAll = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/auth/user/:id
 // @access    Public
 exports.getUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate({
-    path: "posts",
-    model: "Post",
-  });
+  const user = await User.findById(req.params.id);
 
   res.status(200).json({
     success: true,
@@ -96,10 +139,12 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 // @access    Private
 exports.getMe = asyncHandler(async (req, res, next) => {
   // after the user is verified the id of that use is set in request object
-  const user = await User.findById(req.user.id).populate({
-    path: "posts",
-    model: "Post",
-  });
+  // const user = await User.findById(req.user.id).populate({
+  //   path: "posts",
+  //   model: "Post",
+  // });
+
+  const user = await User.findById(req.user.id);
 
   res.status(200).json({
     success: true,
