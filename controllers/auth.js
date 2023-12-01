@@ -86,14 +86,16 @@ exports.getAll = asyncHandler(async (req, res, next) => {
   //   console.log(`Sort column: ${sortColumn}, Sort order: ${sortOrder}`);
   // });
 
-  const { sort } = req.query;
+  const { sort, limit, page } = req.query;
 
   // after the user is verified the id of that use is set in request object
   // let query = User.find().populate({
   //   path: "posts",
   //   model: "Post",
   // });
-  let query = User.find();
+
+  // let query = User.find();
+  let query = User.aggregate();
 
   // Check if the sort parameter is provided
   if (sort) {
@@ -105,7 +107,38 @@ exports.getAll = asyncHandler(async (req, res, next) => {
     query = query.sort({ [sortColumn]: sortOrder });
   }
 
+  // Apply pagination
+  const pageNumber = parseInt(page) || 1; // Default to page 1 if page number is not provided
+  const pageSize = parseInt(limit) || 10; // Default to 10 items per page if limit is not provided
+
+  // this will only apply pagination if pagination data is provided in query if you remove the default values defined above
+  if (!isNaN(pageNumber) && !isNaN(pageSize)) {
+    const skip = (pageNumber - 1) * pageSize;
+    query = query.skip(skip).limit(pageSize);
+  }
+
   const totalAuthors = await User.countDocuments();
+
+  // Perform a left outer join with the "Post" collection to count the number of posts for each user.
+  // This stage uses the $lookup aggregation stage to perform a left outer join with the "Post" collection. It matches documents from the "User" collection with documents from the "Post" collection based on the _id field in "User" and the user field in "Post". The result is stored in the userPosts array.
+  query = query.lookup({
+    from: "posts", // Name of the "Post" collection
+    localField: "_id", // Field from the "User" collection
+    foreignField: "user", // Field from the "Post" collection that refers to the user
+    // as: "posts", // Name of the new array field to store the matched posts. Use this if you want to get all ths posts too
+    as: "userPosts", // Name of the new array field to store the matched posts (you can use any name here)
+  });
+
+  // Add a new field "numberOfPosts" to store the count of posts for each user
+  query = query.addFields({
+    // numberOfPosts: { $size: "$posts" }, // Count the number of elements in the "posts" array
+    numberOfPosts: { $size: "$userPosts" }, // Count the number of elements in the "userPosts" array
+  });
+
+  // Exclude the "userPosts" field from the final result
+  query = query.project({
+    userPosts: 0,
+  });
 
   const users = await query.exec();
 

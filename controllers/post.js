@@ -49,7 +49,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
   // include this if you want your responses to always include pagination
   // const skip = (pageNumber - 1) * pageSize;
 
-  // this will only apply pagination if pagination data is provided in query
+  // this will only apply pagination if pagination data is provided in query if you remove the default values defined above
   if (!isNaN(pageNumber) && !isNaN(pageSize)) {
     const skip = (pageNumber - 1) * pageSize;
     query = query.skip(skip).limit(pageSize);
