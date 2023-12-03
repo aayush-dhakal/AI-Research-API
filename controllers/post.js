@@ -28,7 +28,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
   //   select: "name description",
   // });
 
-  const { sort, limit, page } = req.query;
+  const { sort, limit, page, topic } = req.query;
 
   let query = Post.find().populate("user");
 
@@ -55,7 +55,12 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
     query = query.skip(skip).limit(pageSize);
   }
 
-  const totalPosts = await Post.countDocuments();
+  // Apply a filter based on the provided topic
+  if (topic) {
+    query = query.find({ topics: { $in: [topic] } });
+  }
+
+  const totalPosts = await Post.countDocuments(query._conditions);
 
   const posts = await query.exec();
 
