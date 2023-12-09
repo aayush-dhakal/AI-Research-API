@@ -23,7 +23,6 @@ const corsOptions = {
   origin: true,
 
   credentials: true,
-  sameSite: "None",
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));

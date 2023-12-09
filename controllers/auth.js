@@ -251,6 +251,7 @@ const sendTokenResponse = (user, statusCode, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ), // time is specified in milliseconds. 1 second=1000 milliseconds
     httpOnly: true,
+    sameSite: "None",
   };
 
   if (process.env.NODE_ENV === "production") {
