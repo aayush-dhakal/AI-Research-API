@@ -231,6 +231,7 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 // @access    Private
 exports.logout = asyncHandler(async (req, res, next) => {
   res.clearCookie("token", {
+    expires: new Date(0),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "None",
