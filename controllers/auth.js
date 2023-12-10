@@ -230,7 +230,7 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/auth/logout
 // @access    Private
 exports.logout = asyncHandler(async (req, res, next) => {
-  res.clearCookie("token", "none", {
+  res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "None",
