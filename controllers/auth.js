@@ -231,14 +231,14 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 // @access    Private
 exports.logout = asyncHandler(async (req, res, next) => {
   const options = {
-    expires: new Date(new Date()),
+    expires: new Date(0),
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     // secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     // sameSite: "None",
-    // domain: "https://ai-research-frontend.vercel.app",
-    // path: "/",
+    domain: "https://ai-research-frontend.vercel.app",
+    path: "/",
   };
 
   // const token = "";
@@ -267,8 +267,8 @@ const sendTokenResponse = (user, statusCode, res) => {
     // secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     // sameSite: "None",
-    // domain: "https://ai-research-frontend.vercel.app",
-    // path: "/",
+    domain: "https://ai-research-frontend.vercel.app",
+    path: "/",
   };
 
   // if (process.env.NODE_ENV === "production") {
