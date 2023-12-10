@@ -231,7 +231,7 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 // @access    Private
 exports.logout = asyncHandler(async (req, res, next) => {
   const options = {
-    expires: new Date(0),
+    expires: new Date(new Date()),
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     secure: true,
