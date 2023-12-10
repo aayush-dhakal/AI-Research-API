@@ -18,7 +18,9 @@ app.use(express.json());
 const corsOptions = {
   // set origin to a specific origin.
   // origin: "http://localhost:3000",
-  origin: process.env.FRONTEND_URL,
+  origin: "https://ai-research-frontend.vercel.app",
+
+  // origin: process.env.FRONTEND_URL,
 
   // or, set origin to true to reflect the request origin
   // origin: true,
