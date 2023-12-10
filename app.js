@@ -20,7 +20,8 @@ const corsOptions = {
   // origin: "http://localhost:3000",
 
   // or, set origin to true to reflect the request origin
-  origin: true,
+  // origin: true,
+  origin: "https://ai-research-frontend.vercel.app",
 
   credentials: true,
   optionsSuccessStatus: 200,
