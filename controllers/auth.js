@@ -233,9 +233,9 @@ exports.logout = asyncHandler(async (req, res, next) => {
   const options = {
     expires: new Date(0),
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-    sameSite: "None",
+    // sameSite: "None",
     domain: "https://ai-research-frontend.vercel.app",
   };
 
@@ -243,7 +243,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
 
   // res.cookie("token", token, options);
   res.cookie("token", "none", options);
-  res.clearCookie("token", options);
+  // res.clearCookie("token", options);
 
   res.status(200).json({
     success: true,
@@ -261,9 +261,9 @@ const sendTokenResponse = (user, statusCode, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ), // time is specified in milliseconds. 1 second=1000 milliseconds
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-    sameSite: "None",
+    // sameSite: "None",
     domain: "https://ai-research-frontend.vercel.app",
   };
 
