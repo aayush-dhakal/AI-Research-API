@@ -239,7 +239,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
 
   const token = "";
 
-  res.status(statusCode).cookie("token", token, options).json({
+  res.status(200).cookie("token", token, options).json({
     success: true,
     data: {},
   });
