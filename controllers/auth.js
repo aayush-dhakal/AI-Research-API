@@ -260,7 +260,9 @@ const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
 
   const options = {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 1000), // time is specified in milliseconds. 1 second=1000 milliseconds
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+    ), // time is specified in milliseconds. 1 second=1000 milliseconds
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     secure: true,
