@@ -233,6 +233,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
   res.cookie("token", "none", {
     expires: new Date(0),
     httpOnly: true,
+    sameSite: "None",
   });
 
   res.status(200).json({
