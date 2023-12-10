@@ -235,7 +235,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-    // sameSite: "None",
+    sameSite: "None",
   };
 
   // const token = "";
