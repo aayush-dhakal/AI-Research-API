@@ -237,7 +237,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
     // secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     // sameSite: "None",
-    domain: "https://ai-research-frontend.vercel.app",
+    domain: "ai-research-frontend.vercel.app",
     path: "/",
   };
 
@@ -267,7 +267,7 @@ const sendTokenResponse = (user, statusCode, res) => {
     // secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     // sameSite: "None",
-    domain: "https://ai-research-frontend.vercel.app",
+    domain: "ai-research-frontend.vercel.app",
     path: "/",
   };
 
