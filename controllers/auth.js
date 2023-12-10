@@ -237,8 +237,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
     // secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     // sameSite: "None",
-    domain: "ai-research-frontend.vercel.app",
-    path: "/",
+    // domain: "ai-research-frontend.vercel.app",
+    // path: "/",
   };
 
   // const token = "";
@@ -267,8 +267,8 @@ const sendTokenResponse = (user, statusCode, res) => {
     // secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     // sameSite: "None",
-    domain: "ai-research-frontend.vercel.app",
-    path: "/",
+    // domain: "ai-research-frontend.vercel.app",
+    // path: "/",
   };
 
   // if (process.env.NODE_ENV === "production") {
