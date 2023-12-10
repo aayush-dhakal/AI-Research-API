@@ -233,7 +233,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
   res.cookie("token", "none", {
     expires: new Date(0),
     httpOnly: true,
-    // sameSite: "None",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "None",
   });
 
   res.status(200).json({
@@ -252,12 +253,13 @@ const sendTokenResponse = (user, statusCode, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ), // time is specified in milliseconds. 1 second=1000 milliseconds
     httpOnly: true,
-    // sameSite: "None",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "None",
   };
 
-  if (process.env.NODE_ENV === "production") {
-    options.secure = true; // sends in https only in production
-  }
+  // if (process.env.NODE_ENV === "production") {
+  //   options.secure = true; // sends in https only in production
+  // }
 
   res.status(statusCode).cookie("token", token, options).json({
     success: true,
