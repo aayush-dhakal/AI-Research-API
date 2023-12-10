@@ -234,11 +234,11 @@ exports.logout = asyncHandler(async (req, res, next) => {
     expires: new Date(0),
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
-    // secure: true,
+    secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-    // sameSite: "None",
+    sameSite: "None",
     // domain: "ai-research-frontend.vercel.app",
-    domain: ".vercel.app",
+    // domain: ".vercel.app",
     // path: "/",
   };
 
@@ -265,11 +265,11 @@ const sendTokenResponse = (user, statusCode, res) => {
     ), // time is specified in milliseconds. 1 second=1000 milliseconds
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
-    // secure: true,
+    secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-    // sameSite: "None",
+    sameSite: "None",
     // domain: "ai-research-frontend.vercel.app",
-    domain: ".vercel.app",
+    // domain: ".vercel.app",
     // path: "/",
   };
 
