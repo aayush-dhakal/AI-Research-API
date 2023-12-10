@@ -231,15 +231,15 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 // @access    Private
 exports.logout = asyncHandler(async (req, res, next) => {
   const options = {
-    expires: new Date(Date.now() + 1 * 1000), // 1 millisecond
+    expires: new Date(0), // 1 millisecond
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     secure: true,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     sameSite: "None",
     // domain: "ai-research-frontend.vercel.app",
-    // domain: ".vercel.app",
-    // path: "/",
+    domain: "vercel.app",
+    path: "/",
   };
 
   // const token = "";
@@ -269,8 +269,8 @@ const sendTokenResponse = (user, statusCode, res) => {
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     sameSite: "None",
     // domain: "ai-research-frontend.vercel.app",
-    // domain: ".vercel.app",
-    // path: "/",
+    domain: "vercel.app",
+    path: "/",
   };
 
   // if (process.env.NODE_ENV === "production") {
