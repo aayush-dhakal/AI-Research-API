@@ -242,8 +242,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
   // const token = "";
 
   // res.cookie("token", token, options);
-  // res.clearCookie("token", options);
-  res.cookie("token", "none", options);
+  res.clearCookie("token", options);
+  // res.cookie("token", "none", options);
 
   res.status(200).json({
     success: true,
@@ -262,8 +262,9 @@ const sendTokenResponse = (user, statusCode, res) => {
     ), // time is specified in milliseconds. 1 second=1000 milliseconds
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-    // sameSite: "None",
+    // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
+    sameSite: "None",
+    domain: "https://ai-research-frontend.vercel.app",
   };
 
   // if (process.env.NODE_ENV === "production") {
