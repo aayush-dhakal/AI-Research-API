@@ -231,7 +231,7 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 // @access    Private
 exports.logout = asyncHandler(async (req, res, next) => {
   const options = {
-    expires: new Date(0),
+    expires: new Date(Date.now() + 1 * 1000), // 1 millisecond
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     secure: true,
@@ -246,9 +246,9 @@ exports.logout = asyncHandler(async (req, res, next) => {
 
   // res.cookie("token", token, options);
   // res.cookie("token", "none", options);
-  res.clearCookie("token", options);
+  // res.clearCookie("token", options);
 
-  res.status(200).json({
+  res.status(200).cookie("token", "none", options).json({
     success: true,
     data: {},
   });
