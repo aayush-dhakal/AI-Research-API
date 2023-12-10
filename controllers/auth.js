@@ -230,14 +230,16 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/auth/logout
 // @access    Private
 exports.logout = asyncHandler(async (req, res, next) => {
-  res.clearCookie("token", {
+  const options = {
     expires: new Date(0),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "None",
-  });
+  };
 
-  res.status(200).json({
+  const token = "";
+
+  res.status(statusCode).cookie("token", token, options).json({
     success: true,
     data: {},
   });
