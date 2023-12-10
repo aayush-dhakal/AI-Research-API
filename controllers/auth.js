@@ -234,7 +234,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
     expires: new Date(0),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "None",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
   };
 
   const token = "";
@@ -256,7 +256,7 @@ const sendTokenResponse = (user, statusCode, res) => {
     ), // time is specified in milliseconds. 1 second=1000 milliseconds
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "None",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
   };
 
   // if (process.env.NODE_ENV === "production") {
