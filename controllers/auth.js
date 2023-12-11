@@ -250,8 +250,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
   // res.cookie("token", "none", options);
   // res.clearCookie("token", options);
   res.clearCookie("token");
-  // res.setHeader("Clear-Site-Data", '"token"');
-  res.setHeader("Clear-Site-Data", '"cookies"');
+  res.setHeader("Clear-Site-Data", '"token"');
+  // res.setHeader("Clear-Site-Data", '"cookies"');
 
   // res.status(200).cookie("token", "none", options).json({
   res.status(200).json({
