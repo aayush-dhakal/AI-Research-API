@@ -232,16 +232,16 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 exports.logout = asyncHandler(async (req, res, next) => {
   const options = {
     expires: new Date(0), // 1 millisecond
-    httpOnly: true,
+    httpOnly: false,
     // secure: process.env.NODE_ENV === "production",
-    secure: true,
+    secure: false,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-    // sameSite: "None",
-    sameSite: "Strict",
-    domain: ".vercel.app",
+    sameSite: "None",
+    // sameSite: "Strict",
+    // domain: ".vercel.app",
     // domain: "*.vercel.app",
     // path: "/",
-    path: "/*",
+    // path: "/*",
   };
 
   // const token = "";
@@ -266,15 +266,15 @@ const sendTokenResponse = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ), // time is specified in milliseconds. 1 second=1000 milliseconds
-    httpOnly: true,
+    httpOnly: false,
     // secure: process.env.NODE_ENV === "production",
-    secure: true,
+    secure: false,
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-    // sameSite: "None",
-    sameSite: "Strict",
-    domain: ".vercel.app",
+    sameSite: "None",
+    // sameSite: "Strict",
+    // domain: ".vercel.app",
     // domain: "*.vercel.app",
-    path: "/*",
+    // path: "/*",
   };
 
   // if (process.env.NODE_ENV === "production") {
