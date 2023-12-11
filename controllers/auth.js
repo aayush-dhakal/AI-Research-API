@@ -246,9 +246,10 @@ exports.logout = asyncHandler(async (req, res, next) => {
 
   // res.cookie("token", token, options);
   // res.cookie("token", "none", options);
-  // res.clearCookie("token", options);
+  res.clearCookie("token", options);
 
-  res.status(200).cookie("token", "none", options).json({
+  // res.status(200).cookie("token", "none", options).json({
+  res.status(200).json({
     success: true,
     data: {},
   });
@@ -269,8 +270,8 @@ const sendTokenResponse = (user, statusCode, res) => {
     // sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
     sameSite: "None",
     // domain: "ai-research-frontend.vercel.app",
-    domain: "*.vercel.app",
-    path: "/",
+    // domain: "*.vercel.app",
+    // path: "/",
   };
 
   // if (process.env.NODE_ENV === "production") {
