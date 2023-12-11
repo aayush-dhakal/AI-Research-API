@@ -239,7 +239,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
     sameSite: "None",
     domain: "ai-research-frontend.vercel.app",
     // domain: "*.vercel.app",
-    path: "/",
+    // path: "/",
+    path: "/*",
   };
 
   // const token = "";
@@ -271,7 +272,7 @@ const sendTokenResponse = (user, statusCode, res) => {
     sameSite: "None",
     domain: "ai-research-frontend.vercel.app",
     // domain: "*.vercel.app",
-    // path: "/",
+    path: "/*",
   };
 
   // if (process.env.NODE_ENV === "production") {
