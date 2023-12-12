@@ -29,7 +29,14 @@ exports.register = asyncHandler(async (req, res) => {
     ORCID,
   });
 
-  sendTokenResponse(user, 200, res);
+  // sendTokenResponse(user, 200, res);
+
+  const token = user.getSignedJwtToken();
+
+  res.status(200).json({
+    success: true,
+    token,
+  });
 });
 
 // @desc      Login user
@@ -57,7 +64,14 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Invalid password", 401));
   }
 
-  sendTokenResponse(user, 200, res);
+  // sendTokenResponse(user, 200, res);
+
+  const token = user.getSignedJwtToken();
+
+  res.status(200).json({
+    success: true,
+    token,
+  });
 });
 
 // @desc      Get all users
