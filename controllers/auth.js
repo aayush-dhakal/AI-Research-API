@@ -1,6 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const User = require("../models/User");
+const Post = require("../models/Post");
 
 // @desc      Register user
 // @route     POST /api/auth/register
@@ -233,6 +234,8 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
     );
   }
+
+  await Post.deleteMany({ user: user._id });
 
   res.status(200).json({
     success: true,
